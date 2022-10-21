@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <div class="heading">
+      <h1>RGB - CMYK converter</h1>
+      <button class="btn alert" id="reset">Reset</button>
+    </div>
+    <div class="colors">
+      <div id="rbgDiv" class="color">
+        <div class="color-picker"></div>
+        <label for="r" id="rLabel">R: 0</label>
+        <input
+          type="range"
+          name="r"
+          id="r"
+          min="0"
+          max="255"
+          step="1"
+          value="0"
+        />
+        <label for="g" id="gLabel">G: 0</label>
+        <input
+          type="range"
+          name="g"
+          id="g"
+          min="0"
+          max="255"
+          step="1"
+          value="0"
+        />
+        <label for="b" id="bLabel">B: 0</label>
+        <input
+          type="range"
+          name="b"
+          id="b"
+          min="0"
+          max="255"
+          step="1"
+          value="0"
+        />
+      </div>
+      <div id="cmykDiv" class="color">
+        <div class="color-picker2"></div>
+        <label for="c" id="cLabel">C: 0%</label>
+        <input
+          type="range"
+          name=""
+          id="c"
+          min="0"
+          max="100"
+          step="1"
+          value="0"
+        />
+        <label for="m" id="mLabel">M: 0%</label>
+        <input
+          type="range"
+          name=""
+          id="m"
+          min="0"
+          max="100"
+          step="1"
+          value="0"
+        />
+        <label for="Y" id="yLabel">Y: 0%</label>
+        <input
+          type="range"
+          name=""
+          id="y"
+          min="0"
+          max="100"
+          step="1"
+          value="0"
+        />
+        <label for="k" id="kLabel">K: 0%</label>
+        <input
+          type="range"
+          name=""
+          id="k"
+          min="0"
+          max="100"
+          step="1"
+          value="100"
+        />
+      </div>
+    </div>
+    <p class="text" id="text"></p>
+    <div class="colors">
+      <div class="color">
+        <button id="RGBtoCMYK" class="btn normal">RGB > CMYK</button>
+        <p class="text">CMYK:</p>
+        <div class="cmyk" id="outputCMYK"></div>
+      </div>
+      <div class="color">
+        <button id="CMYKtoRGB" class="btn normal">CMYK < RGB</button>
+        <p class="text">RGB:</p>
+        <div class="rgb" id="outputRGB"></div>
+      </div>
+    </div>
+  </body>
+</html>
