@@ -15,6 +15,7 @@ let kLabel = document.getElementById("kLabel");
 let text = document.getElementById("text");
 let outputRGB = document.getElementById("outputRGB");
 let outputCMYK = document.getElementById("outputCMYK");
+let cubeContainer = document.getElementById("cubeContainer");
 
 let r = 0,
   g = 0,
@@ -23,6 +24,11 @@ let r = 0,
   m = 0,
   y = 0,
   k = 100;
+
+let lastMouseX = 0,
+  lastMouseY = 0;
+let rotX = 0,
+  rotY = 0;
 
 const pickr = Pickr.create({
   el: ".color-picker",
@@ -174,6 +180,7 @@ document.getElementById("reset").addEventListener("click", () => {
   pickr2.applyColor();
   outputRGB.style.background = "white";
   outputCMYK.style.background = "white";
+  cubeContainer.classList.add("hidden");
 });
 
 function RGBtoCMYK(R, G, B) {
@@ -210,3 +217,67 @@ function CMYKtoRGB(C, M, Y, K) {
     B: Math.round(255 * tempY * tempK),
   };
 }
+
+document.addEventListener("mousedown", (event) => {
+  lastMouseX = event.clientX;
+  lastMouseY = event.clientY;
+  document.addEventListener("mousemove", mouseMoved);
+});
+
+document.addEventListener("mouseup", () => {
+  document.removeEventListener("mousemove", mouseMoved);
+});
+
+function mouseMoved(event) {
+  var deltaX = event.clientX - lastMouseX;
+  var deltaY = event.clientY - lastMouseY;
+
+  lastMouseX = event.clientX;
+  lastMouseY = event.clientY;
+
+  rotY -= deltaX * -0.2;
+  rotX += deltaY * -0.2;
+  document.getElementById("cube").style.transform =
+    "translateZ( -100px) rotateX( " + rotX + "deg) rotateY(" + rotY + "deg)";
+}
+
+document.getElementById("show").addEventListener("click", () => {
+  cubeContainer.classList.remove("hidden");
+});
+const canvas = document.getElementById("image-builder");
+const ctx = canvas.getContext("2d");
+const cube = document.getElementById("cube");
+const size = 256;
+const sideRules = [
+  [1, 0, 2], // top
+  [1, 2, 0], // front
+  [3, 2, 1], // right
+  [5, 2, 3], // back
+  [0, 2, 5], // left
+  [1, 3, 4], // bottom
+];
+const generateSide = ([ruleR, ruleG, ruleB]) => {
+  const imageSrc = new Uint8ClampedArray(size * size * 4);
+  for (let i = 0; i < imageSrc.length; i += 4) {
+    const [r, g, b, a] = [i, i + 1, i + 2, i + 3];
+    const pixelIndex = i / 4;
+    const col = pixelIndex % size;
+    const row = Math.floor(pixelIndex / size);
+    const sideRule = [0, col, row, 256, 256 - row, 256 - col];
+    imageSrc[r] = sideRule[ruleR];
+    imageSrc[g] = sideRule[ruleG];
+    imageSrc[b] = sideRule[ruleB];
+    imageSrc[a] = 255;
+  }
+  ctx.putImageData(new ImageData(imageSrc, size, size), 0, 0);
+  const image = new Image(size, size);
+  image.src = canvas.toDataURL("image/png");
+  return image;
+};
+
+sideRules.map(generateSide).forEach((img, i) => {
+  img.classList.add(`side-${i}`);
+  cube.appendChild(img);
+  const span = document.createElement("span");
+  span.innerText = `side-${i}`;
+});

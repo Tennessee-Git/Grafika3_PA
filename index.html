@@ -15,6 +15,7 @@
   </head>
   <body>
     <div class="heading">
+      <button class="btn show" id="show">Show cube</button>
       <h1>RGB - CMYK converter</h1>
       <button class="btn alert" id="reset">Reset</button>
     </div>
@@ -101,13 +102,17 @@
       <div class="color">
         <button id="RGBtoCMYK" class="btn normal">RGB > CMYK</button>
         <p class="text">CMYK:</p>
-        <div class="cmyk" id="outputCMYK"></div>
+        <div class="output" id="outputCMYK"></div>
       </div>
       <div class="color">
         <button id="CMYKtoRGB" class="btn normal">CMYK < RGB</button>
         <p class="text">RGB:</p>
-        <div class="rgb" id="outputRGB"></div>
+        <div class="output" id="outputRGB"></div>
       </div>
+    </div>
+    <canvas id="image-builder" class="canvas" height="200" width="200"></canvas>
+    <div class="cube-container hidden" id="cubeContainer">
+      <div class="cube" id="cube"></div>
     </div>
   </body>
 </html>
